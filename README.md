@@ -47,31 +47,3 @@ Como modelo se ha utilizado la libreria sklearn con varios modelos de regresión
 Estos modelos fueron evaluados utilizando validación cruzada con 5 pliegues (K-Fold Cross-Validation) y la métrica de error cuadrático medio (MSE) para determinar su rendimiento.
 
 Para la seleción del mejor modelo, se compararon los valores promedio de MSE obtenidos en la validación cruzada. El modelo con el menor MSE promedio fue seleccionado como el mejor modelo para predecir los precios de los autos usados.
-
-## Despliegue en Streamlit Cloud
-
-Esta aplicación está configurada para ser desplegada en Streamlit Cloud. Para implementarla, sigue estos pasos:
-
-1. Asegúrate de tener una cuenta en [Streamlit Cloud](https://streamlit.io/cloud)
-2. Conecta tu repositorio de GitHub a Streamlit Cloud
-3. Selecciona este repositorio y configura:
-   - **Main file path**: `streamlit_app.py`
-   - No se requieren secrets para esta aplicación
-
-La aplicación utilizará automáticamente:
-- El archivo `requirements.txt` para instalar las dependencias
-- El modelo preentrenado `best_model.pkl` 
-- El conjunto de datos `used_cars.csv`
-
-### Requisitos del sistema
-
-- Python 3.8 o superior
-- Bibliotecas específicas listadas en `requirements.txt`
-- Streamlit versión 1.30.0 o superior
-
-### Uso en la nube
-
-Una vez desplegada, la aplicación estará disponible en una URL proporcionada por Streamlit Cloud. Los usuarios podrán:
-- Predecir precios de autos usados
-- Explorar tendencias del mercado
-- Ver estadísticas y visualizaciones interactivas
