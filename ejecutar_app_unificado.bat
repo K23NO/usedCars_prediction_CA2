@@ -1,0 +1,9 @@
+@echo off
+echo Instalando dependencias necesarias...
+pip install streamlit pandas==2.2.2 numpy==1.26.4 matplotlib==3.9.2 joblib==1.4.2 scikit-learn==1.5.1
+
+echo.
+echo Ejecutando aplicacion unificada...
+streamlit run app_unificado.py
+
+pause
