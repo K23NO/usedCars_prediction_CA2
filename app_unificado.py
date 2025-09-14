@@ -7,7 +7,22 @@ import re
 import numpy as np
 import pandas as pd
 import streamlit as st
-import matplotlib.pyplot as plt
+
+# Configuración especial para matplotlib en Python 3.13+ y entornos sin interfaz gráfica
+try:
+    import matplotlib
+    matplotlib.use('Agg')  # Debe ir antes de importar pyplot
+    import matplotlib.pyplot as plt
+except ImportError as e:
+    st.error(f"Error al importar matplotlib: {e}")
+    st.info("Intentando método alternativo...")
+    try:
+        # Método alternativo para Python 3.13+
+        os.environ['MPLBACKEND'] = 'Agg'
+        import matplotlib.pyplot as plt
+    except ImportError as e2:
+        st.error(f"No se pudo importar matplotlib: {e2}")
+
 import joblib
 
 # Configuración de la página
@@ -194,19 +209,28 @@ def plot_feature_relationship(df, feature, user_value=None):
     if feature not in df.columns:
         return None
     
-    # Crear scatter plot
-    fig, ax = plt.subplots(figsize=(10, 6))
-    ax.scatter(df[feature], df['price'], alpha=0.6, color='skyblue')
-    
-    # Añadir línea de tendencia
-    m, b = np.polyfit(df[feature], df['price'], 1)
-    ax.plot(df[feature], m*df[feature] + b, color='red', linestyle='-')
-    
-    # Añadir línea vertical para el valor del usuario
-    if user_value is not None:
-        ax.axvline(x=user_value, color='red', linestyle='--')
-        ax.text(user_value, ax.get_ylim()[1]*0.9, "Su vehículo", 
-                rotation=90, verticalalignment='top')
+    try:
+        # Crear scatter plot
+        fig, ax = plt.subplots(figsize=(10, 6))
+        ax.scatter(df[feature], df['price'], alpha=0.6, color='skyblue')
+        
+        # Añadir línea de tendencia
+        m, b = np.polyfit(df[feature], df['price'], 1)
+        ax.plot(df[feature], m*df[feature] + b, color='red', linestyle='-')
+        
+        # Añadir línea vertical para el valor del usuario
+        if user_value is not None:
+            ax.axvline(x=user_value, color='red', linestyle='--')
+            ax.text(user_value, ax.get_ylim()[1]*0.9, "Su vehículo", 
+                    rotation=90, verticalalignment='top')
+        
+        return fig
+    except Exception as e:
+        st.error(f"Error al crear el gráfico para {feature}: {e}")
+        # Alternativa: Mostrar los datos en una tabla si el gráfico falla
+        if user_value is not None:
+            st.write(f"Su valor para {feature}: {user_value}")
+        return None
     
     ax.set_title(f'Relación entre {feature} y Precio')
     ax.set_xlabel(feature)

@@ -1,0 +1,30 @@
+[browser]
+gatherUsageStats = false
+
+[theme]
+primaryColor = "#2e86de"
+backgroundColor = "#f5f7fa"
+secondaryBackgroundColor = "#eef2f7"
+textColor = "#333333"
+
+[server]
+headless = true
+enableCORS = true
+runOnSave = true
+
+[logger]
+level = "info"
+
+[runner]
+# Configuración para Python 3.13+
+pythonArgs = ["--future-warnings"]
+
+[deprecation]
+showfileUploaderEncoding = false
+
+[global]
+developmentMode = false
+
+# Opciones de optimización para gráficos
+[runner.postScriptGC]
+enabled = true
